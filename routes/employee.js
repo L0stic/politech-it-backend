@@ -9,7 +9,7 @@ employeeRouter.route('/')
 employeeRouter.route('/:id')
     .get(employeeController.getEmployeeById);
 
-employeeRouter.route('/add')
+employeeRouter.route('/')
     .post(employeeController.addEmployee);
 
 export default employeeRouter;
