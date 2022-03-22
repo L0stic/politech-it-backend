@@ -16,9 +16,8 @@ class EmployeeController {
     async updateEmployee(request, response, _next) {
         try {
             const id = request.params.id;
-            const oldEmployee = await employeeService.updateEmployee(id, request.body);
-
-            response.status(201).json({oldEmployee});
+            const newEmployee = await employeeService.updateEmployee(id, request.body);
+            response.status(201).json(newEmployee);
         } catch (error) {
             response.status(500).json({
                 error: error.message,
