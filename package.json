@@ -3,9 +3,27 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
+  "xo": {
+    "ignores": [
+      "db/seeds"
+    ],
+    "rules": {
+      "new-cap": [
+        "error",
+        {
+          "capIsNewExceptions": [
+            "Router"
+          ]
+        }
+      ]
+    }
+  },
   "scripts": {
-    "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
+    "start": "node index.js",
     "dev": "nodemon index.js",
+    "db:init": "npx knex migrate:latest --knexfile ./db/knexfile.js && npx knex seed:run --knexfile ./db/knexfile.js",
+    "db:rollback": "npx knex migrate:rollback --all --knexfile ./db/knexfile.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,7 +31,7 @@
     "url": "git+https://github.com/L0stic/poly-js.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Lostic",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/L0stic/poly-js/issues"
@@ -25,6 +43,7 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "xo": "^0.48.0"
   }
 }

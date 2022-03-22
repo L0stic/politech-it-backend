@@ -1,4 +1,8 @@
-const knex = require('knex');
-const knexfile = require('./knexfile');
+import process from 'node:process';
+import knex from 'knex';
+import knexfile from './knexfile.js';
 
-module.exports = knex(knexfile.development);
+const env = process.env.NODE_ENV || 'development';
+const db = knex(knexfile[env]);
+
+export default db;
