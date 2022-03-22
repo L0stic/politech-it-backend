@@ -6,7 +6,7 @@ Install required packages:
 npm install
 ```
 
-Create `knexfile.js` for connection your database.
+Create `db/knexfile.js` for connection your database.
 Example for **postgresql**:
 ```javascript
 export default {
