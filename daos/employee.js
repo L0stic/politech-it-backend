@@ -28,9 +28,8 @@ class EmployeeDAO {
     }
 
     async getEmployees() {
-        return db
-            .select('*')
-            .from('employees');
+        return await db('employees')
+            .select('*');
     }
 
     async getEmployeeById(id) {

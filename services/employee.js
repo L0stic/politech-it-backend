@@ -1,18 +1,7 @@
+import { ServiceError, isPositiveInteger} from './util.js';
 import employeeDAO from '../daos/employee.js';
 import { employeeSchema } from '../schemas/employee.js';
 
-function isPositiveInteger(string_) {
-    const n = Math.floor(Number(string_));
-    return n !== Number.POSITIVE_INFINITY && String(n) === string_ && n > 0;
-}
-
-export class ServiceError extends Error {
-    constructor({statusCode, message}) {
-        super(message);
-        this.name = 'ServiceError';
-        this.statusCode = statusCode;
-    }
-}
 
 class EmployeeService {
     async addEmployee(employee) {
@@ -110,4 +99,4 @@ class EmployeeService {
     }
 }
 
-export const employeeService = new EmployeeService();
+export default new EmployeeService();

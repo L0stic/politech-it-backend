@@ -1,4 +1,5 @@
-import {employeeService, ServiceError} from '../services/employee.js';
+import { ServiceError } from '../services/util.js';
+import employeeService from '../services/employee.js';
 
 class EmployeeController {
     async addEmployee(request, response, _next) {
