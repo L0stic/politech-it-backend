@@ -9,6 +9,24 @@ class EmployeeDAO {
         return id;
     }
 
+    async updateEmployee(id, employee) {
+        const [oldEmployee] = await db('employees')
+            .where({id})
+            .update(employee)
+            .returning('*');
+
+        return oldEmployee;
+    }
+
+    async removeEmployee(id) {
+        const [employee] = await db('employees')
+            .del()
+            .where({id})
+            .returning('*');
+
+        return employee;
+    }
+
     async getEmployees() {
         return db
             .select('*')
@@ -16,9 +34,8 @@ class EmployeeDAO {
     }
 
     async getEmployeeById(id) {
-        const [employee] = await db
+        const [employee] = await db('employees')
             .select('*')
-            .from('employees')
             .where({id});
 
         return employee;

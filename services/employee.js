@@ -20,6 +20,48 @@ class EmployeeService {
         return employeeDAO.addEmployee(employee);
     }
 
+    async updateEmployee(id, employee) {
+        if (!isPositiveInteger(id)) {
+            throw new ServiceError({
+                statusCode: 400,
+                message: 'id field must be a positive integer and greater than zero',
+            });
+        }
+
+        // Validate employee fields
+
+        const oldEmployee = employeeDAO.updateEmployee(id, employee);
+
+        if (employee === undefined) {
+            throw new ServiceError({
+                statusCode: 404,
+                message: `employee with id ${id} is not found`,
+            });
+        }
+
+        return oldEmployee;
+    }
+
+    async removeEmployee(id) {
+        if (!isPositiveInteger(id)) {
+            throw new ServiceError({
+                statusCode: 400,
+                message: 'id field must be a positive integer and greater than zero',
+            });
+        }
+
+        const employee = employeeDAO.removeEmployee(id);
+
+        if (employee === undefined) {
+            throw new ServiceError({
+                statusCode: 404,
+                message: `employee with id ${id} is not found`,
+            });
+        }
+
+        return employee;
+    }
+
     async getEmployees() {
         return employeeDAO.getEmployees();
     }
@@ -37,7 +79,7 @@ class EmployeeService {
         if (employee === undefined) {
             throw new ServiceError({
                 statusCode: 404,
-                message: 'user with this id was not found',
+                message: `employee with id ${id} is not found`,
             });
         }
 

@@ -9,7 +9,7 @@ const app = express();
 app.disable('x-powered-by');
 
 app.use(express.json());
-app.use('/employee', employeeRouter);
+app.use('/employees', employeeRouter);
 app.use((_request, response, _next) => {
     response.status(404).json({
         error: '404 Not Found',
