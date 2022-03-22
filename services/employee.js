@@ -1,4 +1,5 @@
 import employeeDAO from '../daos/employee.js';
+import { employeeSchema } from '../schemas/employee.js';
 
 function isPositiveInteger(string_) {
     const n = Math.floor(Number(string_));
@@ -15,7 +16,18 @@ export class ServiceError extends Error {
 
 class EmployeeService {
     async addEmployee(employee) {
-        // Validate employee fields
+        const { value, error} = employeeSchema.employeePOST.validate(employee);
+        const valid = error == null;
+
+        if (!valid) {
+            const {details} = error;
+            const message = details.map(i => i.message).join(',');
+
+            throw new ServiceError({
+                statusCode: 400,
+                message: message,
+            });
+        }
 
         return employeeDAO.addEmployee(employee);
     }
@@ -28,18 +40,29 @@ class EmployeeService {
             });
         }
 
-        // Validate employee fields
+        const { value, error } = employeeSchema.employeePUT.validate(employee);
+        const valid = error == null;
 
-        const oldEmployee = employeeDAO.updateEmployee(id, employee);
+        if (!valid) {
+            const {details} = error;
+            const message = details.map(i => i.message).join(',');
 
-        if (employee === undefined) {
+            throw new ServiceError({
+                statusCode: 400,
+                message: message,
+            });
+        }
+
+        const newEmployee = employeeDAO.updateEmployee(id, employee);
+
+        if (newEmployee === undefined) {
             throw new ServiceError({
                 statusCode: 404,
                 message: `employee with id ${id} is not found`,
             });
         }
 
-        return oldEmployee;
+        return newEmployee;
     }
 
     async removeEmployee(id) {

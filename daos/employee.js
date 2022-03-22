@@ -10,12 +10,12 @@ class EmployeeDAO {
     }
 
     async updateEmployee(id, employee) {
-        const [oldEmployee] = await db('employees')
+        const [newEmployee] = await db('employees')
             .where({id})
             .update(employee)
             .returning('*');
 
-        return oldEmployee;
+        return newEmployee;
     }
 
     async removeEmployee(id) {
