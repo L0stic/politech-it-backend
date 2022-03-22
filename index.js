@@ -17,5 +17,5 @@ app.use((_request, response, _next) => {
 });
 
 app.listen(PORT, HOST, () => {
-    console.log(`App listening at http://${HOST}:${PORT}`);
+    console.log(`Server listening at http://${HOST}:${PORT}`);
 });
