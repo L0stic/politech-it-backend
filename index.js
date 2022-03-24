@@ -1,6 +1,7 @@
 import process from 'node:process';
 import express from 'express';
 import employeeRouter from './routes/employee.js';
+import userRouter from './routes/user.js';
 
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
@@ -10,6 +11,7 @@ app.disable('x-powered-by');
 
 app.use(express.json());
 app.use('/employees', employeeRouter);
+app.use('/users', userRouter);
 app.use((_request, response, _next) => {
     response.status(404).json({
         error: '404 Not Found',

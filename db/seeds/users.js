@@ -1,3 +1,5 @@
+const passwordHash = require('password-hash');
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
@@ -8,11 +10,11 @@ exports.seed = async function(knex) {
   await knex('users').insert([
     {
       login: 'Ryan_Gosling',
-      password: 'Ryan_Gosling'
+      password: passwordHash.generate('Ryan_Gosling')
     },
     {
       login: 'Jhony_Depp',
-      password: '1234567890'
+      password: passwordHash.generate('1234567890')
     },
   ]);
 }

@@ -3,7 +3,7 @@ import userController from '../controllers/user.js';
 
 const userRouter = express.Router();
 
-userRouter.route('/')
+userRouter.route('/sign_up')
     .post(userController.addUser);
 
 userRouter.route('/:login')
@@ -19,4 +19,8 @@ userRouter.route('/')
 userRouter.route('/:login')
     .get(userController.getUserByLogin);
 
-export default employeeRouter;
+
+// userRouter.route('/sign_in')
+//     .get(userController.signIn);
+
+export default userRouter;

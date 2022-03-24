@@ -1,3 +1,5 @@
+import { generate } from 'password-hash';
+
 import { ServiceError } from './util.js';
 import userDAO from '../daos/user.js';
 import { userSchema } from '../schemas/user.js';
@@ -5,7 +7,8 @@ import { userSchema } from '../schemas/user.js';
 
 class UserService {
     async addUser(user) {
-        const { value, error} = userSchema.userPOST.validate(user);
+        const passwordHash = generate(user.password);
+        const { value, error} = userSchema.userPOST.validate({ login: user.login, password: passwordHash });
         const valid = error == null;
 
         if (!valid) {
@@ -18,11 +21,12 @@ class UserService {
             });
         }
 
-        return userDAO.addUser(user);
+        return userDAO.addUser({ login: user.login, password: passwordHash });
     }
 
     async updateUser(login, user) {
-        const { value, error } = userSchema.userPUT.validate(user);
+        const passwordHash = generate(user.password);
+        const { value, error } = userSchema.userPUT.validate({ password: passwordHash });
         const valid = error == null;
 
         if (!valid) {
@@ -35,7 +39,7 @@ class UserService {
             });
         }
 
-        const newUser = userDAO.updateUser(login, user);
+        const newUser = userDAO.updateUser(login, { password: passwordHash });
 
         if (newUser === undefined) {
             throw new ServiceError({
