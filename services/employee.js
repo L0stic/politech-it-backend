@@ -1,22 +1,33 @@
+import { ServiceError } from './util.js';
 import employeeDAO from '../daos/employee.js';
 import { employeeSchema } from '../schemas/employee.js';
 
-function isPositiveInteger(string_) {
-    const n = Math.floor(Number(string_));
-    return n !== Number.POSITIVE_INFINITY && String(n) === string_ && n > 0;
-}
 
-export class ServiceError extends Error {
-    constructor({statusCode, message}) {
-        super(message);
-        this.name = 'ServiceError';
-        this.statusCode = statusCode;
-    }
+function employeeWithIdNotFound(id) {
+    throw new ServiceError({
+        statusCode: 404,
+        message: `employee with id=${id} is not found`,
+    });
 }
 
 class EmployeeService {
+    async getEmployees() {
+        return employeeDAO.getEmployees();
+    }
+
+    async getEmployeeById(id) {
+        const employee = await employeeDAO.getEmployeeById(id);
+
+        if (employee === undefined) {
+            employeeWithIdNotFound(id);
+        }
+
+        return employee;
+    }
+
+    /*
     async addEmployee(employee) {
-        const { value, error} = employeeSchema.employeePOST.validate(employee);
+        const { _, error} = employeeSchema.employeePOST.validate(employee);
         const valid = error == null;
 
         if (!valid) {
@@ -84,30 +95,7 @@ class EmployeeService {
 
         return employee;
     }
-
-    async getEmployees() {
-        return employeeDAO.getEmployees();
-    }
-
-    async getEmployeeById(id) {
-        if (!isPositiveInteger(id)) {
-            throw new ServiceError({
-                statusCode: 400,
-                message: 'id field must be a positive integer and greater than zero',
-            });
-        }
-
-        const employee = await employeeDAO.getEmployeeById(id);
-
-        if (employee === undefined) {
-            throw new ServiceError({
-                statusCode: 404,
-                message: `employee with id ${id} is not found`,
-            });
-        }
-
-        return employee;
-    }
+    */
 }
 
-export const employeeService = new EmployeeService();
+export default new EmployeeService();

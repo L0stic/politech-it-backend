@@ -1,6 +1,28 @@
 import db from '../db/db.js';
 
 class EmployeeDAO {
+    async getEmployees() {
+        return await db('employees')
+            .leftJoin('positions', 'employees.position_id', '=', 'positions.id')
+            .select(
+                'employees.id',
+                'first_name',
+                'last_name',
+                'position',
+                'birthday',
+                'salary'
+            );
+        }
+
+    async getEmployeeById(id) {
+        const [employee] = await db('employees')
+            .select('*')
+            .where({id});
+
+        return employee;
+    }
+
+    /*
     async addEmployee(employee) {
         const [id] = await db('employees')
             .insert(employee)
@@ -26,20 +48,7 @@ class EmployeeDAO {
 
         return employee;
     }
-
-    async getEmployees() {
-        return db
-            .select('*')
-            .from('employees');
-    }
-
-    async getEmployeeById(id) {
-        const [employee] = await db('employees')
-            .select('*')
-            .where({id});
-
-        return employee;
-    }
+    */
 }
 
 export default new EmployeeDAO();
