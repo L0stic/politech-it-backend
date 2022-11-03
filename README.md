@@ -49,7 +49,7 @@ npm run dev
 
 * `routes`
 
-* `controllers` - error handling
+* ~~`controllers` - error handling~~
 
 * `services` - request processing
 
