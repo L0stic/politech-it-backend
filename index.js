@@ -1,5 +1,7 @@
 import process from 'node:process';
 import express from 'express';
+import cors from "cors";
+
 import employeeRouter from './routes/employee.js';
 
 
@@ -7,6 +9,9 @@ const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3200;
 const app = express();
 
+app.use(cors({
+    origin: '*'
+}));
 
 app.use(express.json());
 
